@@ -9,7 +9,7 @@ Developing a high-contrast terminal interface from the ground up to master front
 </head>
 <body style="background-color: black; color: lime;">
     <h1>OPERATION: FLAVPRTPWM DETECTED</h1>
-    <p>My name is Axel. I start the terminal.</p>
+    <p>My name is  I start the terminal.</p>
     <p>STATE OF CORE REPAIRED AND FUNCTIONAL.</p>
 </body>
 </html>
