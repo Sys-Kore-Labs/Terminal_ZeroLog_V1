@@ -58,12 +58,7 @@
     <input id="terminal-input" autofocus autocomplete="off" spellcheck="false">
 </div>
 
-<script src="kernel.js"></script> 
-</body>
-</html>
-
-KERNEL JVSC
-
+<script>
 // Hardware & System Config
 const input = document.getElementById('terminal-input');
 const output = document.getElementById('terminal-output');
@@ -98,21 +93,17 @@ function evaluate(raw) {
         case "help":
             print("COMANDOS DISPONIBLES: sysinfo, ram, clear, whoami", "cyan");
             break;
-        
         case "clear":
             output.innerHTML = "";
             break;
-
         case "whoami":
             print("USER: AXEL_ZAPIEN", "#f05");
             print("RANK: ELITE_OPERATOR", "#f05");
             print("SESSION_LOG: 5H 50M (VALIDATED)", "#f05");
             break;
-
         case "ram":
             sys_ram_dump();
             break;
-
         case "sysinfo":
             print("---------------------------------------", "#00ff41");
             print("SYSTEM: TERMINAL ZERO - CORE V1.3", "#00ff41");
@@ -122,7 +113,6 @@ function evaluate(raw) {
             print("SECURITY: ON ZERO-K ACTIVE", "#00ff41");
             print("---------------------------------------", "#00ff41");
             break;
-
         default:
             print(`bash: ${cmd}: command not found. Escribe 'help'.`, "red");
     }
@@ -143,3 +133,6 @@ input.addEventListener('keydown', e => {
 // Boot Sequence
 print("SISTEMA INICIADO... ESPERANDO COMANDOS.", "#888");
 print("Escribe 'sysinfo' para ver el estado del núcleo.", "cyan");
+</script> 
+</body>
+</html>
