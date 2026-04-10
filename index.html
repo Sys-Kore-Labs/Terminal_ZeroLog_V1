@@ -1,11 +1,146 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Terminal ZERO V1</title>
+    <meta charset="UTF-8">
+    <title>TERMINAL_ZERO // AXEL</title>
+    <style>
+        body {
+            background: #000;
+            color: #0f4;
+            font: 16px 'Courier New', monospace;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            overflow: hidden;
+        } 
+        .header-bar {
+            background: #F05;
+            color: #000;
+            padding: 5px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 12px;
+            letter-spacing: 2px;
+        } 
+        #terminal-output {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+        } 
+        .input-area {
+            display: flex;
+            padding: 15px;
+            background: #111;
+            border-top: 1px solid #333;
+        } 
+        #terminal-input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            flex: 1;
+            outline: none;
+            font: inherit;
+            padding-left: 10px;
+        }
+        .prompt { color: #f05; font-weight: bold; }
+    </style>
 </head>
-<body style="background-color: black; color: lime;">
-    <h1>OPERATION: FLAVPRTPWM DETECTED</h1>
-    <p>My name is Axel. I start the terminal.</p>
-    <p>STATE OF CORE REPAIRED AND FUNCTIONAL.</p>
+<body>
+
+<div class="header-bar">AXEL_C2 // SESSION_01 // OPERATIONAL // 5H+ LOGGED</div>
+
+<div id="terminal-output"></div>
+
+<div class="input-area">
+    <span class="prompt">#</span>
+    <input id="terminal-input" autofocus autocomplete="off" spellcheck="false">
+</div>
+
+<script src="kernel.js"></script> 
 </body>
 </html>
+
+//JavaScrip Kernel
+
+// Hardware & System Config
+const input = document.getElementById('terminal-input');
+const output = document.getElementById('terminal-output');
+const RAM_SIZE = 64;
+let ramMap = new Array(RAM_SIZE).fill(0);
+
+// Display Engine
+function print(text, color = "#00ff00") {
+    const line = document.createElement('div');
+    line.style.color = color;
+    line.style.padding = "2px 0";
+    line.innerHTML = text;
+    output.appendChild(line);
+    output.scrollTop = output.scrollHeight;
+}
+
+// Memory System
+function sys_ram_dump() {
+    print("--- RAW MEMORY MAP ---", "#888");
+    for (let i = 0; i < RAM_SIZE; i += 8) {
+        let chunk = ramMap.slice(i, i + 8).map(v => v === 0 ? "00" : "FF").join(" ");
+        print(`0x${i.toString(16).padStart(4, '0')} | ${chunk}`, "#555");
+    }
+}
+
+// Command Parser
+function evaluate(raw) {
+    const args = raw.trim().split(/\s+/);
+    const cmd = args[0].toLowerCase();
+
+    switch (cmd) {
+        case "help":
+            print("COMANDOS DISPONIBLES: sysinfo, ram, clear, whoami", "cyan");
+            break;
+        
+        case "clear":
+            output.innerHTML = "";
+            break;
+
+        case "whoami":
+            print("USER: AXEL_ZAPIEN", "#f05");
+            print("RANK: ELITE_OPERATOR", "#f05");
+            print("SESSION_LOG: 5H 50M (VALIDATED)", "#f05");
+            break;
+
+        case "ram":
+            sys_ram_dump();
+            break;
+
+        case "sysinfo":
+            print("---------------------------------------", "#00ff41");
+            print("SYSTEM: TERMINAL ZERO - CORE V1.3", "#00ff41");
+            print("USER: AXEL | STATUS: OPERATIONAL", "#00ff41");
+            print("KERNEL: MOCK_OS_JS_64BIT", "#00ff41");
+            print("MEMORY: 64 BLOCKS [STABLE]", "#00ff41");
+            print("SECURITY: ON ZERO-K ACTIVE", "#00ff41");
+            print("---------------------------------------", "#00ff41");
+            break;
+
+        default:
+            print(`bash: ${cmd}: command not found. Escribe 'help'.`, "red");
+    }
+}
+
+// Keyboard Listener
+input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+        const val = input.value;
+        if (val.trim()) {
+            print(`<span style="color:#f05">axel@zero</span>:<span style="color:#05f">~</span>$ ${val}`, "white");
+            evaluate(val);
+        }
+        input.value = "";
+    }
+});
+
+// Boot Sequence
+print("SISTEMA INICIADO... ESPERANDO COMANDOS.", "#888");
+print("Escribe 'sysinfo' para ver el estado del núcleo.", "cyan");
+
